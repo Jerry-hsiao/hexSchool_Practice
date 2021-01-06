@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Login from '@/components/pages/Login'
 import Dashboard from '@/components/Dashboard'
 import Products from '@/components/pages/Products'
+import Orders from '@/components/pages/Orders'
 
 Vue.use(Router)
 
@@ -29,6 +30,12 @@ export default new Router({
           path: 'products',
           name: 'Products',
           component: Products,
+          meta: {requiresAuth: true}
+        },
+        {
+          path: 'orders',
+          name: 'Orders',
+          component: Orders,
           meta: {requiresAuth: true}
         }
       ]

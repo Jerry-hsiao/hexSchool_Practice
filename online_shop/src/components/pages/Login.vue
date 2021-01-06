@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading :active.sync="isLoading"></loading>
     <!--登入介面-->
     <main class="form-signin">
         <form  v-on:submit.prevent="signin">
@@ -29,7 +30,8 @@ export default {
       user: {
         username: '',
         password: ''
-      }
+      },
+      isLoading: false
 
     }
   },
@@ -37,8 +39,13 @@ export default {
     signin () {
       const api = `${process.env.APIPATH}/admin/signin`
       const vm = this
+      vm.isLoading = true
       vm.$http.post(api, vm.user).then((r) => {
         if (r.data.success) {
+          const token = r.data.token
+          const expired = r.data.expired
+          document.cookie = `hexToken=${token}; expires=${new Date(expired)};`
+          vm.isLoading = false
           vm.$router.push('/admin/products')
         }
       })
